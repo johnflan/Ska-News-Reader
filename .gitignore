@@ -1,0 +1,15 @@
+#generated files
+bin/
+gen/
+
+#application files + dex vm
+*.apk
+*.ap_
+*.dex
+
+
+*.class
+*.log
+
+#Local configuration (sdk path etc)
+local.properties
