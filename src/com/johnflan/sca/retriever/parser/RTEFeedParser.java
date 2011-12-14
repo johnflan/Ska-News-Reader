@@ -3,7 +3,10 @@ package com.johnflan.sca.retriever.parser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -50,7 +53,7 @@ public class RTEFeedParser extends FeedParser {
             	else if (inDescription)
                 	currentResponseItem.setDescription(currentResponseItem.getDescription() + chars );
             	else if (inPubDate)
-                	currentResponseItem.setPubDate(chars);
+                	currentResponseItem.setPubDate(parseDate(chars));
             	else if (inCreateDate)
                 	currentResponseItem.setCreateDate(chars);
             }
@@ -58,6 +61,24 @@ public class RTEFeedParser extends FeedParser {
 	    } catch (Exception e) {
 	            Log.e("", e.toString());
 	    }
+	}
+
+	private Date parseDate(String chars) {
+		//Thu, 08 Dec 2011 17:32:02+
+		Log.i(TAG, "date text: " + chars);
+		
+		SimpleDateFormat curFormater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss"); 
+		Date dateObj;
+		try {
+			dateObj = curFormater.parse(chars);
+		} catch (ParseException e) {
+			dateObj = new Date();
+			Log.e(TAG, "Date string parse error");
+		} 
+		
+		Log.i(TAG, "parsed date: " + dateObj.toString());
+		
+		return dateObj;
 	}
 
 	private String parseURL(String chars) {

@@ -1,5 +1,7 @@
 package com.johnflan.sca.retriever;
 
+import java.util.Date;
+
 public interface ResponseItem {
 	
 	public String getCreateDate();
@@ -10,8 +12,8 @@ public interface ResponseItem {
 	public void setDescription(String description);
 	public String getLink();
 	public void setLink(String link);
-	public String getPubDate();
-	public void setPubDate(String pubDate);
+	public Date getPubDate();
+	public void setPubDate(Date pubDate);
 	public boolean alreadyRead();
 	public void setAsRead();
 }

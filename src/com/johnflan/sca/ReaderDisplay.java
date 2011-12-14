@@ -18,9 +18,12 @@ import com.johnflan.sca.retriever.Retriever;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +46,7 @@ public class ReaderDisplay extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+
         listView = (ListView)findViewById(R.id.newsList);
 
         try {
@@ -66,13 +69,18 @@ public class ReaderDisplay extends Activity {
 				}
 			});
 			
+			
 			listView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
 
 				public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					Intent shareIntent=new Intent(android.content.Intent.ACTION_SEND);
+					ResponseItem currentItem = (ResponseItem) adapterView.getItemAtPosition(position);
+					
 					shareIntent.setType("text/plain");
-					shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-					shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.url.com");
+					shareIntent.putExtra(Intent.EXTRA_SUBJECT, currentItem.getTitle());
+					shareIntent.putExtra(Intent.EXTRA_TEXT, currentItem.getLink());
+					v.vibrate(75);
 					startActivity(Intent.createChooser(shareIntent, "Share URL"));
 					return false;
 				}

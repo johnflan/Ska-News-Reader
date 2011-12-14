@@ -1,6 +1,6 @@
 package com.johnflan.sca.retriever;
 
-import java.net.URI;
+import java.util.Date;
 
 public class NewsItem implements ResponseItem {
 	
@@ -8,7 +8,7 @@ public class NewsItem implements ResponseItem {
 	private String description = new String();
 	private String link = new String();
 	private String createDate = null;
-	private String pubDate = null;
+	private Date pubDate = null;
 	private boolean read = false;
 	
 	public String getCreateDate() {
@@ -43,11 +43,11 @@ public class NewsItem implements ResponseItem {
 		this.link = link;
 	}
 	
-	public String getPubDate() {
+	public Date getPubDate() {
 		return pubDate;
 	}
 	
-	public void setPubDate(String pubDate) {
+	public void setPubDate(Date pubDate) {
 		this.pubDate = pubDate;
 	}
 	
@@ -68,6 +68,5 @@ public class NewsItem implements ResponseItem {
 		
 		return input.replaceAll("<P>", "").replace("</P>", "");
 	}
-
 	
 }

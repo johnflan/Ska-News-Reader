@@ -2,6 +2,9 @@ package com.johnflan.sca.retriever.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -15,6 +18,8 @@ import com.johnflan.sca.retriever.Retriever;
 import android.util.Log;
 
 public class IndependentFeedParser extends FeedParser {
+	
+	private final static String TAG = "Independent Feed Parser";
 	
 	private boolean inItem = false;
 	private boolean inTitle = false;
@@ -39,12 +44,31 @@ public class IndependentFeedParser extends FeedParser {
                 if (inDescription)
                 	currentResponseItem.setDescription(currentResponseItem.getDescription() + chars);
                 if (inPubDate)
-                	currentResponseItem.setPubDate(chars);
+                	currentResponseItem.setPubDate(parseDate(chars));
             }
 	    } catch (Exception e) {
 	            Log.e("", e.toString());
 	    }
 
+	}
+
+	private Date parseDate(String chars) {
+		//Tue, 13 Dec 2011 11:02:47 +0000
+		//Date(int year, int month, int day, int hour, int minute)
+		Log.i(TAG, "date text: " + chars);
+		
+		SimpleDateFormat curFormater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss "); 
+		Date dateObj;
+		try {
+			dateObj = curFormater.parse(chars);
+		} catch (ParseException e) {
+			dateObj = new Date();
+			Log.e(TAG, "Date string parse error");
+		} 
+		
+		Log.i(TAG, "parsed date: " + dateObj.toString());
+		
+		return dateObj;
 	}
 
 	public void endDocument() throws SAXException {

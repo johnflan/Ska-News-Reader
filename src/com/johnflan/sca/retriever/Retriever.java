@@ -77,7 +77,7 @@ public class Retriever {
 	public void setResponseItems(List<ResponseItem> items){
 		//order list by date-newest first
 		feedList.addAll(items);
-		//Collections.sort(feedList, new FeedComparator());
+		Collections.sort(feedList, new FeedComparator());
 	}
 	
 }
