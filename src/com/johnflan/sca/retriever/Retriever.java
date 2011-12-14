@@ -25,6 +25,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import com.johnflan.sca.ReaderDisplay;
+import com.johnflan.sca.retriever.parser.FeedParser;
+import com.johnflan.sca.retriever.parser.IndependentFeedParser;
+import com.johnflan.sca.retriever.parser.RTEFeedParser;
 
 
 public class Retriever {

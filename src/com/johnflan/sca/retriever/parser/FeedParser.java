@@ -1,4 +1,4 @@
-package com.johnflan.sca.retriever;
+package com.johnflan.sca.retriever.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +13,9 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+
+import com.johnflan.sca.retriever.ResponseItem;
+import com.johnflan.sca.retriever.Retriever;
 
 public abstract class FeedParser implements ContentHandler {
     protected SAXParser parser;
