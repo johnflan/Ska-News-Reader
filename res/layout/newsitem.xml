@@ -20,7 +20,8 @@
     	    android:scrollHorizontally="true"
     	    android:singleLine="true"
     	    android:textSize="17sp"
-    	    android:textStyle="bold" />
+    	    android:textStyle="bold"
+    	    android:textColor="#1C1C1C"/>
 
     	<TextView
     	    android:id="@+id/newsbody"
@@ -29,6 +30,7 @@
     	    android:layout_below="@id/newstitle"
     	    android:layout_toRightOf="@id/icon"    
     	    android:textSize="14sp"
-    	    android:gravity="center_vertical" />
+    	    android:gravity="center_vertical"
+    	    android:textColor="#1C1C1C"/>
 
 </RelativeLayout>

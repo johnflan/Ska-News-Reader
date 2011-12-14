@@ -53,7 +53,7 @@ public class ReaderDisplay extends Activity {
 			
 			listView.setAdapter(new NewsItemAdapter(this, R.layout.newsitem, feedItems));
 			listView.setClickable(true);
-			OnItemClickListener newsItemClickListener = new AdapterView.OnItemClickListener() {
+			listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
 				public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 					ResponseItem currentItem = (ResponseItem) adapterView.getItemAtPosition(position);
 					if (currentItem.getLink() != null && !currentItem.getLink().equals("")){
@@ -64,9 +64,20 @@ public class ReaderDisplay extends Activity {
 						startActivity(i);
 					}
 				}
-			};
+			});
 			
-			listView.setOnItemClickListener(newsItemClickListener);
+			listView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+
+				public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+					Intent shareIntent=new Intent(android.content.Intent.ACTION_SEND);
+					shareIntent.setType("text/plain");
+					shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+					shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.url.com");
+					startActivity(Intent.createChooser(shareIntent, "Share URL"));
+					return false;
+				}
+				
+			});
 			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
