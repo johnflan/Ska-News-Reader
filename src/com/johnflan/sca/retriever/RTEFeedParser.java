@@ -44,7 +44,8 @@ public class RTEFeedParser extends FeedParser {
                 	currentResponseItem.setTitle(chars);
             } else {
                 if (inLink)
-                    currentResponseItem.setLink(chars);
+                	
+                    currentResponseItem.setLink(parseURL(chars));
                 if (inTitle)
                     currentResponseItem.setTitle(chars);
                 if (inDescription)
@@ -58,6 +59,11 @@ public class RTEFeedParser extends FeedParser {
 	    } catch (Exception e) {
 	            Log.e("", e.toString());
 	    }
+	}
+
+	private String parseURL(String chars) {
+		//http://www.rte.ie/news/2011/1213/education.html
+		return chars.substring(0, 7) + "m" + chars.substring(10);
 	}
 
 	public void endDocument() throws SAXException {

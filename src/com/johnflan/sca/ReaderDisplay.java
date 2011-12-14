@@ -17,9 +17,16 @@ import com.johnflan.sca.retriever.ResponseItem;
 import com.johnflan.sca.retriever.Retriever;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,8 +35,10 @@ public class ReaderDisplay extends Activity {
 	private final static String TAG = "ReaderDisplay";
 	private TextView myText = null;
 	private ListView listView;
-	private List<ResponseItem> feedItems ;
+	private List<ResponseItem> feedItems = new ArrayList<ResponseItem>();
 	private Retriever retriever;
+	
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,19 +47,29 @@ public class ReaderDisplay extends Activity {
         
         listView = (ListView)findViewById(R.id.newsList);
         
-        
-//        LinearLayout lView = new LinearLayout(this);
-//
-//        myText = new TextView(this);     
-//        lView.addView(myText);
-//        setContentView(lView);
-        
         URI dataFeed = null;
 
         try {
 			dataFeed = new URI("http://www.rte.ie/rss/news.xml");
 			retriever = new Retriever(dataFeed, this);
 			retriever.requestResource();
+			
+			listView.setAdapter(new NewsItemAdapter(this, R.layout.newsitem, feedItems));
+			listView.setClickable(true);
+			OnItemClickListener myClickListener = new AdapterView.OnItemClickListener() {
+
+				public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+					ResponseItem currentItem = (ResponseItem) adapterView.getItemAtPosition(position);
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData( Uri.parse( currentItem.getLink() ) );
+					currentItem.setAsRead();
+					startActivity(i);
+					
+				}
+			};
+			
+			listView.setOnItemClickListener(myClickListener);
+			
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -63,22 +82,16 @@ public class ReaderDisplay extends Activity {
 			e.printStackTrace();
 		}
 		
-		
     }
     
-    public void debugText(String text){
-    	//myText.append(text);
-    	Log.i(TAG, text);
-    }
     
+       
     public void updateList(){
     	feedItems = retriever.responseContent();
-		Log.i(TAG, "Updating List - feedItems list contains: " + feedItems.size() + " items");
-    	if(feedItems != null){
-    		Log.i(TAG, "Updating List");
-    		listView.setAdapter(new NewsItemAdapter(this, R.layout.newsitem, feedItems));
-    	}
 
-    	    	
+		Log.i(TAG, "Updating List - feedItems list contains: " + feedItems.size() + " items");
+	
     }
+    
+   
 }

@@ -26,6 +26,7 @@ public class NewsItemAdapter extends ArrayAdapter<ResponseItem> {
 	    this.resourceId = resourceId;
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.context = context;
+		//super.setNotifyOnChange(true);
 	}
 	
 	@Override
@@ -52,5 +53,6 @@ public class NewsItemAdapter extends ArrayAdapter<ResponseItem> {
 		
 	    return view;
 	  }
+
 
 }

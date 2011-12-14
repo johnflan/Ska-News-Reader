@@ -9,7 +9,7 @@ public class NewsItem implements ResponseItem {
 	private String link = null;
 	private String createDate = null;
 	private String pubDate = null;
-	
+	private boolean read = false;
 	
 	public String getCreateDate() {
 		return createDate;
@@ -53,6 +53,15 @@ public class NewsItem implements ResponseItem {
 	
 	public String toString(){
 		return title +"\n"+description+"\n"+link+"\n\n";
+	}
+
+
+	public boolean alreadyRead() {
+		return read;
+	}
+
+	public void setAsRead() {
+		this.read = true;
 	}
 
 	

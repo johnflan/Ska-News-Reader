@@ -25,4 +25,8 @@ public interface ResponseItem {
 	public String getPubDate();
 	
 	public void setPubDate(String pubDate);
+	
+	public boolean alreadyRead();
+
+	public void setAsRead();
 }

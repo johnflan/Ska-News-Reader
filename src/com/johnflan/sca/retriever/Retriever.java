@@ -61,18 +61,8 @@ public class Retriever {
 	}
 	
 	public void setResponseItems(List<ResponseItem> items){
-		responseItems = items;
-		
-		for (ResponseItem item : items){
-			readerDisplay.debugText(item.toString());
-		}
+		responseItems = items;		
 		readerDisplay.updateList();
 	}
-
-	public void debugText(String string) {
-		readerDisplay.debugText(string);
-		
-	}
-
 	
 }

@@ -2,32 +2,33 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="80dip"
+    android:layout_height="wrap_content"
     android:padding="10dip" >
     	<ImageView android:id="@+id/icon"
-    	    android:layout_width="50dp"
+    	    android:layout_width="0dp"
     	    android:layout_height="fill_parent"
-    	    android:layout_marginRight="10dip"
+    	    android:layout_marginRight="5dip"
     	    android:layout_alignParentLeft="true"/>
+
     	<TextView
     	    android:id="@+id/newstitle"
     	    android:layout_width="fill_parent"
     	    android:layout_height="wrap_content"
-    	    android:gravity="center_vertical"
-    	    android:textSize="14sp"
-    	    android:textStyle="bold"
+    	    android:layout_toRightOf="@id/icon"
     	    android:ellipsize="marquee"
+    	    android:gravity="center_vertical"
+    	    android:scrollHorizontally="true"
     	    android:singleLine="true"
-    	    android:scrollHorizontally="true"/>
+    	    android:textSize="17sp"
+    	    android:textStyle="bold" />
 
     	<TextView
     	    android:id="@+id/newsbody"
     	    android:layout_width="fill_parent"
     	    android:layout_height="wrap_content"
     	    android:layout_below="@id/newstitle"
-    	    android:ellipsize="marquee"
-    	    android:gravity="center_vertical"
-    	    android:scrollHorizontally="true"
-    	    android:singleLine="true" />
+    	    android:layout_toRightOf="@id/icon"    
+    	    android:textSize="14sp"
+    	    android:gravity="center_vertical" />
 
 </RelativeLayout>
