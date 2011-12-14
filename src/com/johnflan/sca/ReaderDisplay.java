@@ -38,40 +38,36 @@ public class ReaderDisplay extends Activity {
 	private List<ResponseItem> feedItems = new ArrayList<ResponseItem>();
 	private Retriever retriever;
 	
-	
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
         listView = (ListView)findViewById(R.id.newsList);
-        
-        URI dataFeed = null;
 
         try {
-			dataFeed = new URI("http://www.rte.ie/rss/news.xml");
-			retriever = new Retriever(dataFeed, this);
-			retriever.requestResource();
+
+			retriever = new Retriever(this, feedItems);
+			retriever.requestResource();		
 			
 			listView.setAdapter(new NewsItemAdapter(this, R.layout.newsitem, feedItems));
 			listView.setClickable(true);
-			OnItemClickListener myClickListener = new AdapterView.OnItemClickListener() {
-
+			OnItemClickListener newsItemClickListener = new AdapterView.OnItemClickListener() {
 				public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 					ResponseItem currentItem = (ResponseItem) adapterView.getItemAtPosition(position);
-					Intent i = new Intent(Intent.ACTION_VIEW);
-					i.setData( Uri.parse( currentItem.getLink() ) );
-					currentItem.setAsRead();
-					startActivity(i);
-					
+					if (currentItem.getLink() != null && !currentItem.getLink().equals("")){
+						Log.i(TAG, "Opening URL: " + currentItem.getLink());
+						Intent i = new Intent(Intent.ACTION_VIEW);
+						i.setData( Uri.parse( currentItem.getLink() ) );
+						currentItem.setAsRead();
+						startActivity(i);
+					}
 				}
 			};
 			
-			listView.setOnItemClickListener(myClickListener);
+			listView.setOnItemClickListener(newsItemClickListener);
 			
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -82,15 +78,6 @@ public class ReaderDisplay extends Activity {
 			e.printStackTrace();
 		}
 		
-    }
-    
-    
-       
-    public void updateList(){
-    	feedItems = retriever.responseContent();
-
-		Log.i(TAG, "Updating List - feedItems list contains: " + feedItems.size() + " items");
-	
     }
     
    

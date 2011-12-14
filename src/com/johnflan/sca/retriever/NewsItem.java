@@ -4,9 +4,9 @@ import java.net.URI;
 
 public class NewsItem implements ResponseItem {
 	
-	private String title = null;
-	private String description = null;
-	private String link = null;
+	private String title = new String();
+	private String description = new String();
+	private String link = new String();
 	private String createDate = null;
 	private String pubDate = null;
 	private boolean read = false;
@@ -24,7 +24,7 @@ public class NewsItem implements ResponseItem {
 	}
 	
 	public void setTitle(String title) {
-		this.title = title;
+		this.title = sanitizeText(title);
 	}
 	
 	public String getDescription() {
@@ -32,7 +32,7 @@ public class NewsItem implements ResponseItem {
 	}
 	
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = sanitizeText(description);
 	}
 	
 	public String getLink() {
@@ -62,6 +62,11 @@ public class NewsItem implements ResponseItem {
 
 	public void setAsRead() {
 		this.read = true;
+	}
+	
+	private String sanitizeText(String input){
+		
+		return input.replaceAll("<P>", "").replace("</P>", "");
 	}
 
 	

@@ -1,0 +1,3 @@
+Replace www with m for mobile versions of rte pages.
+
+Rte News stories with images are stored as http://img.rasset.ie/00045ce2-75.jpg the digits after the -75.jpg the 75 specifies the width of the image (generated dynamically). Just accessing the 00045ce2.jpg just returns a default size.
