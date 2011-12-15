@@ -2,7 +2,7 @@ package com.johnflan.sca.retriever;
 
 import java.util.Date;
 
-public class NewsItem implements ResponseItem {
+public class NewsItem {
 	
 	private String title = new String();
 	private String description = new String();

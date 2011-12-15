@@ -3,7 +3,7 @@ package com.johnflan.sca;
 import java.util.List;
 
 import com.johnflan.sca.R;
-import com.johnflan.sca.retriever.ResponseItem;
+import com.johnflan.sca.retriever.NewsItem;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,13 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NewsItemAdapter extends ArrayAdapter<ResponseItem> {
+public class NewsItemAdapter extends ArrayAdapter<NewsItem> {
 	private final static String TAG = "NewsItemAdapter";
 	private int resourceId = 0;
 	private LayoutInflater inflater;
 	private Context context;
 
-	public NewsItemAdapter(Context context, int resourceId, List<ResponseItem> newsItems) {
+	public NewsItemAdapter(Context context, int resourceId, List<NewsItem> newsItems) {
 		super(context, 0, newsItems);
 	    this.resourceId = resourceId;
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,7 +45,7 @@ public class NewsItemAdapter extends ArrayAdapter<ResponseItem> {
 	    	throw e;
 	    }
 	
-		ResponseItem item = getItem(position);
+		NewsItem item = getItem(position);
 
 	    textTitle.setText(item.getTitle());
 	    textBody.setText(item.getDescription());

@@ -13,11 +13,12 @@ import org.apache.http.client.ClientProtocolException;
 import org.xml.sax.SAXException;
 
 import com.johnflan.sca.R;
-import com.johnflan.sca.retriever.ResponseItem;
+import com.johnflan.sca.retriever.NewsItem;
 import com.johnflan.sca.retriever.Retriever;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -38,7 +39,7 @@ public class ReaderDisplay extends Activity {
 	private final static String TAG = "ReaderDisplay";
 	private TextView myText = null;
 	private ListView listView;
-	private List<ResponseItem> feedItems = new ArrayList<ResponseItem>();
+	private List<NewsItem> feedItems = new ArrayList<NewsItem>();
 	private Retriever retriever;
 	
 
@@ -50,15 +51,14 @@ public class ReaderDisplay extends Activity {
         listView = (ListView)findViewById(R.id.newsList);
 
         try {
-
 			retriever = new Retriever(this, feedItems);
-			retriever.requestResource();		
 			
 			listView.setAdapter(new NewsItemAdapter(this, R.layout.newsitem, feedItems));
 			listView.setClickable(true);
+			
 			listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
 				public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-					ResponseItem currentItem = (ResponseItem) adapterView.getItemAtPosition(position);
+					NewsItem currentItem = (NewsItem) adapterView.getItemAtPosition(position);
 					if (currentItem.getLink() != null && !currentItem.getLink().equals("")){
 						Log.i(TAG, "Opening URL: " + currentItem.getLink());
 						Intent i = new Intent(Intent.ACTION_VIEW);
@@ -75,13 +75,13 @@ public class ReaderDisplay extends Activity {
 				public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
 					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					Intent shareIntent=new Intent(android.content.Intent.ACTION_SEND);
-					ResponseItem currentItem = (ResponseItem) adapterView.getItemAtPosition(position);
+					NewsItem currentItem = (NewsItem) adapterView.getItemAtPosition(position);
 					
 					shareIntent.setType("text/plain");
 					shareIntent.putExtra(Intent.EXTRA_SUBJECT, currentItem.getTitle());
 					shareIntent.putExtra(Intent.EXTRA_TEXT, currentItem.getLink());
 					v.vibrate(75);
-					startActivity(Intent.createChooser(shareIntent, "Share URL"));
+					startActivity(Intent.createChooser(shareIntent, "Share news story"));
 					return false;
 				}
 				
@@ -98,6 +98,6 @@ public class ReaderDisplay extends Activity {
 		}
 		
     }
-    
+      
    
 }

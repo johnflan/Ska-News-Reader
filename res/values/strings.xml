@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sca</string>
+    <string name="app_name">Daily Sca</string>
     <string name="app_description">Irish News</string>
-
+    <string name="share_news_story">Share news story</string>
+    
 </resources>

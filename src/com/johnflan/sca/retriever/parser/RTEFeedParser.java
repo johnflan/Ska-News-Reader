@@ -47,15 +47,15 @@ public class RTEFeedParser extends FeedParser {
             // If not in item, then title/link refers to feed
             if (inItem) {
             	if (inTitle)
-                	currentResponseItem.setTitle( currentResponseItem.getTitle() + chars );
+                	newsItem.setTitle( newsItem.getTitle() + chars );
             	else if (inLink)               	
-                    currentResponseItem.setLink(parseURL(chars));
+                    newsItem.setLink(parseURL(chars));
             	else if (inDescription)
-                	currentResponseItem.setDescription(currentResponseItem.getDescription() + chars );
+                	newsItem.setDescription(newsItem.getDescription() + chars );
             	else if (inPubDate)
-                	currentResponseItem.setPubDate(parseDate(chars));
+                	newsItem.setPubDate(parseDate(chars));
             	else if (inCreateDate)
-                	currentResponseItem.setCreateDate(chars);
+                	newsItem.setCreateDate(chars);
             }
             
 	    } catch (Exception e) {
@@ -95,8 +95,8 @@ public class RTEFeedParser extends FeedParser {
 
 		if (name.trim().equals("item")){
 	    	inItem = false;   	
-	    	parsedItems.add(currentResponseItem);
-	    	currentResponseItem = null;
+	    	parsedItems.add(newsItem);
+	    	newsItem = null;
 	    } else if (inTitle)
 	    	inTitle = false;
 	    else if (name.trim().equals("guid"))
@@ -154,7 +154,7 @@ public class RTEFeedParser extends FeedParser {
 		
 	    if (name.trim().equals("item")){
 	    	inItem = true;
-	    	currentResponseItem = new NewsItem();
+	    	newsItem = new NewsItem();
 	    } else if (name.trim().equals("title") )
 	    	inTitle = true;
 	    else if (name.trim().equals("guid") )

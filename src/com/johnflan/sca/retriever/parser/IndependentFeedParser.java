@@ -38,13 +38,13 @@ public class IndependentFeedParser extends FeedParser {
             // If not in item, then title/link refers to feed
             if (inItem) {
                 if (inLink)           	
-                    currentResponseItem.setLink(currentResponseItem.getLink() + chars);
+                    newsItem.setLink(newsItem.getLink() + chars);
                 if (inTitle)
-                    currentResponseItem.setTitle(currentResponseItem.getTitle() + chars);
+                    newsItem.setTitle(newsItem.getTitle() + chars);
                 if (inDescription)
-                	currentResponseItem.setDescription(currentResponseItem.getDescription() + chars);
+                	newsItem.setDescription(newsItem.getDescription() + chars);
                 if (inPubDate)
-                	currentResponseItem.setPubDate(parseDate(chars));
+                	newsItem.setPubDate(parseDate(chars));
             }
 	    } catch (Exception e) {
 	            Log.e("", e.toString());
@@ -79,8 +79,8 @@ public class IndependentFeedParser extends FeedParser {
 
 		if (name.trim().equals("item")){
 	    	inItem = false;   	
-	    	parsedItems.add(currentResponseItem);
-	    	currentResponseItem = null;
+	    	parsedItems.add(newsItem);
+	    	newsItem = null;
 	    } else if (inTitle)
 	    	inTitle = false;
 	    else if (name.trim().equals("link"))
@@ -135,7 +135,7 @@ public class IndependentFeedParser extends FeedParser {
 		
 	    if (name.trim().equals("item")){
 	    	inItem = true;
-	    	currentResponseItem = new NewsItem();
+	    	newsItem = new NewsItem();
 	    } else if (name.trim().equals("title") )
 	    	inTitle = true;
 	    else if (name.trim().equals("link") )

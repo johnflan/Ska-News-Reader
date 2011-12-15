@@ -14,7 +14,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import com.johnflan.sca.retriever.ResponseItem;
+import com.johnflan.sca.retriever.NewsItem;
 import com.johnflan.sca.retriever.Retriever;
 
 public abstract class FeedParser implements ContentHandler {
@@ -23,13 +23,13 @@ public abstract class FeedParser implements ContentHandler {
 	protected Retriever retriever;
 	
 	//list of objects to be returned
-	List<ResponseItem> parsedItems;
-	ResponseItem currentResponseItem;
+	List<NewsItem> parsedItems;
+	NewsItem newsItem;
 	
 	public FeedParser(InputStream content, Retriever retriever) throws IOException, SAXException, ParserConfigurationException{
 		
 		this.retriever = retriever;
-		parsedItems = new ArrayList<ResponseItem>();
+		parsedItems = new ArrayList<NewsItem>();
 		InputSource inputSource = new InputSource(content);
         parser = SAXParserFactory.newInstance().newSAXParser();
         xmlReader = parser.getXMLReader();
