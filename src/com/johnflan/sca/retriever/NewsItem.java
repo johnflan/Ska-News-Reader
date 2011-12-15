@@ -7,17 +7,9 @@ public class NewsItem {
 	private String title = new String();
 	private String description = new String();
 	private String link = new String();
-	private String createDate = null;
 	private Date pubDate = null;
 	private boolean read = false;
 	
-	public String getCreateDate() {
-		return createDate;
-	}
-	
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
-	}
 	
 	public String getTitle() {
 		return title;

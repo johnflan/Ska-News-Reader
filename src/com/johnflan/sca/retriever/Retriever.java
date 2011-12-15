@@ -31,7 +31,8 @@ import android.util.Log;
 
 import com.johnflan.sca.ReaderDisplay;
 import com.johnflan.sca.retriever.database.DatabaseHelper;
-import com.johnflan.sca.retriever.parser.FeedParser;
+import com.johnflan.sca.retriever.parser.AbstractFeedParser;
+import com.johnflan.sca.retriever.parser.GenericFeedParser;
 import com.johnflan.sca.retriever.parser.IndependentFeedParser;
 import com.johnflan.sca.retriever.parser.RTEFeedParser;
 
@@ -68,18 +69,18 @@ public class Retriever {
 			
 			if (httpResponse.getEntity() != null){
 				InputStream responseContent = httpResponse.getEntity().getContent();
-				getRSSParser(responseContent, source.getUrl());
+				getRSSParser(responseContent, source);
 			}	
 		}
 	}
 	
-	private FeedParser getRSSParser(InputStream responseContent, String source) throws IOException, SAXException, ParserConfigurationException {
-		if (source.contains("http://www.rte.ie") )
+	private AbstractFeedParser getRSSParser(InputStream responseContent, NewsSource source) throws IOException, SAXException, ParserConfigurationException {
+		Log.i(TAG, "Returning parser for: " + source.getName() + ", with url: " + source.getUrl());
+		if (source.getUrl().contains("http://www.rte.ie") )
 			return new RTEFeedParser(responseContent, this);
-		if ( source.contains("http://www.independent.ie") )
-			return new IndependentFeedParser(responseContent, this);
-		
-		return null;
+		else
+			return new GenericFeedParser(responseContent, this);
+
 	}
 
 	public List<NewsItem> responseContent() {

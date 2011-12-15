@@ -54,7 +54,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void createDataBase() throws IOException{
  
     	boolean dbExist = checkDataBase();
- 
+    	//TODO: always dump the phones database
+    	dbExist = false;
+    	
     	if(dbExist){
     		//do nothing - database already exist
     	}else{

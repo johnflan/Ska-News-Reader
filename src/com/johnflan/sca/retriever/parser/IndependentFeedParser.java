@@ -17,15 +17,9 @@ import com.johnflan.sca.retriever.Retriever;
 
 import android.util.Log;
 
-public class IndependentFeedParser extends FeedParser {
+public class IndependentFeedParser extends AbstractFeedParser {
 	
 	private final static String TAG = "Independent Feed Parser";
-	
-	private boolean inItem = false;
-	private boolean inTitle = false;
-	private boolean inLink = false;
-	private boolean inDescription = false;
-	private boolean inPubDate = false;
 
 	public IndependentFeedParser(InputStream content, Retriever retriever) throws IOException, SAXException, ParserConfigurationException {
 		super(content, retriever);
@@ -34,123 +28,17 @@ public class IndependentFeedParser extends FeedParser {
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		String chars = (new String(ch).substring(start, start + length));
 
-		try {
-            // If not in item, then title/link refers to feed
-            if (inItem) {
-                if (inLink)           	
-                    newsItem.setLink(newsItem.getLink() + chars);
-                if (inTitle)
-                    newsItem.setTitle(newsItem.getTitle() + chars);
-                if (inDescription)
-                	newsItem.setDescription(newsItem.getDescription() + chars);
-                if (inPubDate)
-                	newsItem.setPubDate(parseDate(chars));
-            }
-	    } catch (Exception e) {
-	            Log.e("", e.toString());
-	    }
-
-	}
-
-	private Date parseDate(String chars) {
-		//Tue, 13 Dec 2011 11:02:47 +0000
-		//Date(int year, int month, int day, int hour, int minute)
-		Log.i(TAG, "date text: " + chars);
-		
-		SimpleDateFormat curFormater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss "); 
-		Date dateObj;
-		try {
-			dateObj = curFormater.parse(chars);
-		} catch (ParseException e) {
-			dateObj = new Date();
-			Log.e(TAG, "Date string parse error");
-		} 
-		
-		Log.i(TAG, "parsed date: " + dateObj.toString());
-		
-		return dateObj;
-	}
-
-	public void endDocument() throws SAXException {
-		retriever.setResponseItems(parsedItems);
-	}
-
-	public void endElement(String uri, String name, String qName) throws SAXException {
-
-		if (name.trim().equals("item")){
-	    	inItem = false;   	
-	    	parsedItems.add(newsItem);
-	    	newsItem = null;
-	    } else if (inTitle)
-	    	inTitle = false;
-	    else if (name.trim().equals("link"))
-	    	inLink = false;
-	    else if (name.trim().equals("description"))
-	    	inDescription = false;
-	    else if (name.trim().equals("pubDate"))
-	    	inPubDate = false;	
-	}
-	public void endPrefixMapping(String prefix) throws SAXException {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void ignorableWhitespace(char[] ch, int start, int length)
-			throws SAXException {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void processingInstruction(String target, String data)
-			throws SAXException {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setDocumentLocator(Locator locator) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void skippedEntity(String name) throws SAXException {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void startDocument() throws SAXException {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void startElement(String uri, String name, String qName, Attributes atts) throws SAXException {
-		
-//		<item>
-//			<title>Half of acute hospitals may be axed</title>
-//			<guid>http://www.independent.ie/breaking-news/national-news/half-of-acute-hospitals-may-be-axed-2962076.html</guid>
-//			<link>http://www.independent.ie/breaking-news/national-news/half-of-acute-hospitals-may-be-axed-2962076.html</link>
-//			<description><P>A radical healthovide more treatment outside the region's wards.</P></description>
-//			<category domain="http://www.independent.ie/breaking-news/national-news/">National News</category>
-//			<pubDate>Tue, 13 Dec 2011 11:02:47 +0000</pubDate>
-//		</item>
-		
-	    if (name.trim().equals("item")){
-	    	inItem = true;
-	    	newsItem = new NewsItem();
-	    } else if (name.trim().equals("title") )
-	    	inTitle = true;
-	    else if (name.trim().equals("link") )
-	    	inLink = true;
-	    else if (name.trim().equals("description") )
-	    	inDescription = true;
-	    else if (name.trim().equals("pubDate") )
-	    	inPubDate = true;
-
-	}
-
-	public void startPrefixMapping(String prefix, String uri)
-			throws SAXException {
-		// TODO Auto-generated method stub
-
+        // If not in item, then title/link refers to feed
+        if (inItem) {
+            if (inLink)           	
+                newsItem.setLink(newsItem.getLink() + chars);
+            if (inTitle)
+                newsItem.setTitle(newsItem.getTitle() + chars);
+            if (inDescription)
+            	newsItem.setDescription(newsItem.getDescription() + chars);
+            if (inPubDate)
+            	newsItem.setPubDate(parseDate(chars));
+        }
 	}
 
 }
