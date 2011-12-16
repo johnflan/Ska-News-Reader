@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.login.LoginException;
+
 import com.johnflan.sca.retriever.NewsSource;
 
 import android.content.Context;
@@ -32,6 +34,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	private final static String DB_SOURCES_NAME = "name";
 	private final static String DB_SOURCES_ID = "_id";
 	private final static String DB_SOURCES_PARSER = "parser";
+	
+	private final static String DB_NEWS_STORIES = "news_stories";
+	private final static String DB_NEWS_STORIES_ID = "_id";
+	private final static String DB_NEWS_STORIES_TITLE = "title";
+	private final static String DB_NEWS_STORIES_DESCRIPTION = "description";
+	private final static String DB_NEWS_STORIES_URL = "url";
+	private final static String DB_NEWS_STORIES_PUB_DATE = "pub_date";
+	private final static String DB_NEWS_STORIES_READ = "read";
+	
+	private final static String DB_PREF = "pref";
+	private final static String DB_PREF_ID = "_id";
+	private final static String DB_PREF_REGION = "region";
  
     private SQLiteDatabase myDataBase; 
  
@@ -55,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
  
     	boolean dbExist = checkDataBase();
     	//TODO: always dump the phones database
-    	dbExist = false;
+    	//dbExist = false;
     	
     	if(dbExist){
     		//do nothing - database already exist
@@ -113,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * This is done by transfering bytestream.
      * */
     private void copyDataBase() throws IOException{
- 
+    	Log.i(TAG, "Copying deployment database to phone.");
     	//Open your local db as the input stream
     	InputStream myInput = myContext.getAssets().open(DB_NAME);
  
@@ -144,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
  
     public void openDataBase() throws SQLException{
- 
+    	Log.i(TAG, "Opening database connection");
     	//Open the database
         String myPath = DB_PATH + DB_NAME;
     	myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
@@ -224,5 +238,36 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		} 
 		
 		return newsSources;
+	}
+	
+	public void setRegionPreferences(String[] regions){
+		
+	}
+	
+	public String[] getRegionPreferences(){
+		return null;
+	}
+	
+	public List<SourceRegion> getAllRegions(){
+		List<SourceRegion> sourceRegions = new ArrayList<SourceRegion>();
+		SourceRegion temp;
+		Log.i(TAG, "Getting list of all regions");
+
+		Cursor mCursor = myDataBase.query(true, DB_SOURCES, new String[]{ DB_SOURCES_REGION},
+				null, null, null, null, null, null);
+		int regionIndex = mCursor.getColumnIndex(DB_SOURCES_REGION);
+		mCursor.moveToFirst();
+		if (mCursor != null && mCursor.getCount() > 0){
+			while (!mCursor.isAfterLast()){
+				String regionString = mCursor.getString(regionIndex);
+				temp = new SourceRegion();
+				temp.setRegionName(regionString);
+				temp.setSelected(false);
+				sourceRegions.add(temp);
+				mCursor.moveToNext();
+			}	
+		}
+
+		return sourceRegions;
 	}
 }

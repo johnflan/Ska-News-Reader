@@ -10,7 +10,6 @@ public class NewsItem {
 	private Date pubDate = null;
 	private boolean read = false;
 	
-	
 	public String getTitle() {
 		return title;
 	}

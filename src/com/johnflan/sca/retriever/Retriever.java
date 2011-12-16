@@ -57,6 +57,7 @@ public class Retriever {
 		openDB();
 		getSources();
 		requestResource();
+		
 	}
 	
 	
@@ -121,6 +122,8 @@ public class Retriever {
 		
 		//if the db has no sources use these debug sources..
 		if (sources.isEmpty()){
+			Log.w(TAG, "DB returned no sources");
+			
 			sources = new ArrayList<NewsSource>();
 			NewsSource tmp = new NewsSource();	
 			tmp.setUrl("http://www.rte.ie/rss/news.xml");
@@ -129,6 +132,7 @@ public class Retriever {
 			tmp.setUrl("http://www.independent.ie/breaking-news/national-news/rss");
 			sources.add(tmp);
 		}
+		
 	
 		if (dbHelper != null)
 			dbHelper.close();	

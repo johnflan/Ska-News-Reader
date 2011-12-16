@@ -27,6 +27,9 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -34,6 +37,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReaderDisplay extends Activity {
 	private final static String TAG = "ReaderDisplay";
@@ -97,6 +101,49 @@ public class ReaderDisplay extends Activity {
 			e.printStackTrace();
 		}
 		
+    }
+    
+    @Override  
+    public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_options_menu, menu);
+		return true;
+//      menu.add(R.string.menu_refresh);
+//      menu.add(R.string.menu_pref);
+//      menu.add(R.string.menu_about);
+//      return super.onCreateOptionsMenu(menu);  
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+			try {
+				retriever.update();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            	Toast.makeText(this, "Refreshing", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.menu_preferences:
+            	Intent i = new Intent(ReaderDisplay.this, Preferences.class);
+                startActivity(i);
+                break;
+            case R.id.menu_about:
+            	Toast.makeText(this, "You pressed the icon and text!", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return true;
     }
       
    
