@@ -22,6 +22,13 @@ public class NewsItem {
 		return description;
 	}
 	
+	public String getTruncatedDescription(){
+		if (description.length() > 250){
+			return description.substring(0, 250) + "...";
+		}
+		return description;
+	}
+	
 	public void setDescription(String description) {
 		this.description = sanitizeText(description);
 	}

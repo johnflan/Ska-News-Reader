@@ -24,6 +24,7 @@
         <activity
             android:label="@string/activity_preferences"
             android:name="com.johnflan.sca.Preferences"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"></activity>
     </application>
 

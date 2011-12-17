@@ -34,6 +34,7 @@ import com.johnflan.sca.retriever.database.DatabaseHelper;
 import com.johnflan.sca.retriever.parser.AbstractFeedParser;
 import com.johnflan.sca.retriever.parser.GenericFeedParser;
 import com.johnflan.sca.retriever.parser.IndependentFeedParser;
+import com.johnflan.sca.retriever.parser.MayoAdvertiserFeedParser;
 import com.johnflan.sca.retriever.parser.RTEFeedParser;
 
 
@@ -79,6 +80,8 @@ public class Retriever {
 		Log.i(TAG, "Returning parser for: " + source.getName() + ", with url: " + source.getUrl());
 		if (source.getUrl().contains("http://www.rte.ie") )
 			return new RTEFeedParser(responseContent, this);
+		else if (source.getUrl().contains("MayoAdvertiser") )
+			return new MayoAdvertiserFeedParser(responseContent, this);
 		else
 			return new GenericFeedParser(responseContent, this);
 

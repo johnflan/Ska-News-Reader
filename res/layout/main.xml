@@ -11,7 +11,7 @@
 		    android:orientation="vertical" >
 
 		    <ImageView
-		        android:id="@+id/imageView1"
+		        android:id="@+id/masthead"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:src="@drawable/masthead" />

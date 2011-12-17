@@ -8,24 +8,21 @@
        	<CheckBox
     	    android:id="@+id/sourceSelected"
     	    android:layout_width="wrap_content"
-    	    android:layout_height="fill_parent"
+        	android:layout_height="wrap_content"
     	    android:layout_marginRight="5dip"
     	    android:layout_alignParentLeft="true"/>/>
 
     	<TextView
     	    android:id="@+id/sourceRegion"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="wrap_content"
+    	    android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+       		android:layout_marginRight="5dip"
+       		android:layout_marginTop="8dip"
     	    android:layout_toRightOf="@+id/sourceSelected"
-    	    android:ellipsize="marquee"
-    	    android:gravity="center_vertical"
-    	    android:scrollHorizontally="true"
     	    android:singleLine="true"
 			android:typeface="serif"
-    	    android:textSize="17sp"
+    	    android:textSize="22sp"
     	    android:textStyle="bold"
     	    android:textColor="#1C1C1C"/>
-
-
 
 </RelativeLayout>

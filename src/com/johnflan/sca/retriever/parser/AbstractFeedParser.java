@@ -37,6 +37,7 @@ public abstract class AbstractFeedParser implements ContentHandler {
     protected boolean inLink = false;
     protected boolean inDescription = false;
     protected boolean inPubDate = false;
+    protected String pubDate = new String();
 	
 	//list of objects to be returned
 	List<NewsItem> parsedItems;
@@ -55,7 +56,7 @@ public abstract class AbstractFeedParser implements ContentHandler {
 	}
 	
 	protected Date parseDate(String chars) {
-			
+		//http://www.java2s.com/Tutorial/Java/0040__Data-Type/SimpleDateFormat.htm
 		SimpleDateFormat curFormater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss"); 
 		Date dateObj;
 		try {
@@ -80,7 +81,7 @@ public abstract class AbstractFeedParser implements ContentHandler {
         	else if (inDescription)
             	newsItem.setDescription(newsItem.getDescription() + chars );
         	else if (inPubDate)
-            	newsItem.setPubDate(parseDate(chars));
+            	pubDate += chars;
         }
 	}
 	
@@ -108,8 +109,13 @@ public abstract class AbstractFeedParser implements ContentHandler {
 
 		if (name.trim().equals("item")){
 	    	inItem = false;
-	    	sanatizeStrings();
-	    	parsedItems.add(newsItem);
+	    	if (newsItem.getLink() != null && newsItem.getTitle() != null && !pubDate.equals("")) {
+	    		newsItem.setPubDate(parseDate(pubDate));
+	    		sanatizeStrings();
+	    		parsedItems.add(newsItem);
+	    	} else {
+	    		Log.w(TAG, "Dropped news item" + newsItem.getTitle() + ", " + newsItem.getLink() + ", " + newsItem.getPubDate());;
+	    	}
 	    	newsItem = null;
 	    } else if (inTitle)
 	    	inTitle = false;
@@ -122,11 +128,10 @@ public abstract class AbstractFeedParser implements ContentHandler {
 	}
 	
 	public void endDocument() throws SAXException {
-		
 		retriever.setResponseItems(parsedItems);
 	}
 	
-	private void sanatizeStrings() {
+	protected void sanatizeStrings() {
 		newsItem.setTitle(Jsoup.parse(newsItem.getTitle()).text());
 		newsItem.setDescription(Jsoup.parse(newsItem.getDescription()).text());
 	}

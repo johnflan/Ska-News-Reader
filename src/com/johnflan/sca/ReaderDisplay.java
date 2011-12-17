@@ -26,16 +26,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +50,10 @@ public class ReaderDisplay extends Activity {
 	private final static String TAG = "ReaderDisplay";
 	private TextView myText = null;
 	private ListView listView;
+	private ImageView masthead;
 	private List<NewsItem> feedItems = new ArrayList<NewsItem>();
 	private Retriever retriever;
-	
+	private PopupWindow pw;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +99,15 @@ public class ReaderDisplay extends Activity {
 				
 			});
 			
+			masthead = (ImageView) findViewById(R.id.masthead);
+			masthead.setOnClickListener(new OnClickListener() {
+				
+				public void onClick(View v) {				
+					listView.smoothScrollToPosition(0);					
+				}
+			});
+
+			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -101,6 +118,7 @@ public class ReaderDisplay extends Activity {
 			e.printStackTrace();
 		}
 		
+        
     }
     
     @Override  
@@ -108,10 +126,6 @@ public class ReaderDisplay extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_options_menu, menu);
 		return true;
-//      menu.add(R.string.menu_refresh);
-//      menu.add(R.string.menu_pref);
-//      menu.add(R.string.menu_about);
-//      return super.onCreateOptionsMenu(menu);  
     }
     
     @Override
@@ -140,11 +154,28 @@ public class ReaderDisplay extends Activity {
                 startActivity(i);
                 break;
             case R.id.menu_about:
+            	showAboutPopup();
             	Toast.makeText(this, "You pressed the icon and text!", Toast.LENGTH_LONG).show();
                 break;
         }
         return true;
     }
-      
+    
+    private void showAboutPopup()
+    {
+        PopupWindow window = new PopupWindow(this);
+        window.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        window.setTouchable(true);
+        window.setFocusable(true);
+
+        EditText text = new EditText(this);
+        text.setText("Touch it, it doesn't crash");
+
+        window.setContentView(text);
+        window.showAtLocation(text, Gravity.CENTER, 30, 30);
+    }
+         
    
 }

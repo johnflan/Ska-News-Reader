@@ -48,8 +48,7 @@ public class NewsItemAdapter extends ArrayAdapter<NewsItem> {
 		NewsItem item = getItem(position);
 
 	    textTitle.setText(item.getTitle());
-	    textBody.setText(item.getDescription());
-//	    Log.i(TAG, item.toString());
+	    textBody.setText(item.getTruncatedDescription());
 		
 	    return view;
 	  }

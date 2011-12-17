@@ -37,15 +37,20 @@ public class RTEFeedParser extends AbstractFeedParser {
 	protected String parseURL(String chars) {
 		//http://www.rte.ie/news/2011/1213/education.html
 		Log.i(TAG, "Creating mobile url for: " + chars);
-		return chars.substring(0, 7) + "m" + chars.substring(10);
+		if (chars.contains("www.rte"))
+			return chars.substring(0, 7) + "m" + chars.substring(10);
+		return chars;
 	}
 
 	
 	public void endElement(String uri, String name, String qName) throws SAXException {
 
 		if (name.trim().equals("item")){
-	    	inItem = false;   	
-	    	parsedItems.add(newsItem);
+			if (newsItem.getLink() != null && newsItem.getTitle() != null && !pubDate.equals("")) {
+	    		newsItem.setPubDate(parseDate(pubDate));
+		    	inItem = false;   	
+		    	parsedItems.add(newsItem);
+			}
 	    	newsItem = null;
 	    } else if (inTitle)
 	    	inTitle = false;
